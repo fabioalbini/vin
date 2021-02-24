@@ -1,30 +1,20 @@
-require_relative './check_digit_calulator'
+require_relative './validator'
 
 class Vin
-  attr_reader :vin
-
-  def initialize(vin, check_digit_calculator: CheckDigitCalculator)
-    @vin = vin
-    @check_digit_calculator = check_digit_calculator
+  def initialize(vin_code, validator: Validator)
+    @vin_code = vin_code.to_s.upcase.strip
+    @validator = validator
   end
 
   def valid?
-    calculated_check_digit == given_check_digit
+    validator.new(vin_code).call
   end
 
   def to_s
-    vin
+    vin_code
   end
 
   private
 
-  attr_reader :check_digit_calculator
-
-  def given_check_digit
-    vin[8].to_c
-  end
-
-  def calculated_check_digit
-    @calculated_check_digit ||= check_digit_calculator.new(vin).call
-  end
+  attr_reader :vin_code, :validator
 end
