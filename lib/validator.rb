@@ -1,6 +1,9 @@
 require_relative './check_digit_calulator'
 
 class Validator
+  VIN_LENGTH = 17
+  CHECK_DIGIT_POSITION = 8
+
   Response = Struct.new(
     :valid?,
     :errors,
@@ -13,9 +16,6 @@ class Validator
     :suggestions,
     keyword_init: true
   )
-
-  VIN_LENGTH = 17
-  CHECK_DIGIT_POSITION = 8
 
   def initialize(vin_code, check_digit_calculator: CheckDigitCalculator)
     @vin_code = vin_code.to_s
