@@ -20,6 +20,6 @@ class Vin
   attr_reader :vin_code, :validator
 
   def validation_response
-    validator.new(vin_code).call
+    @validation_response ||= validator.new(vin_code).call
   end
 end

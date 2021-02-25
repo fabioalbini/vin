@@ -6,11 +6,11 @@ class CheckDigitCalculator
   end
 
   def call
-    map = [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 'X']
+    map = %w(0 1 2 3 4 5 6 7 9 10 X)
     weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2]
     sum = 0
 
-    vin_code.split('').each_with_index do |char, i|
+    vin_code.chars.each_with_index do |char, i|
       sum += transliterate(char) * weights[i]
     end
 
@@ -29,6 +29,6 @@ class CheckDigitCalculator
     number = numerical_counterpart(char)
     raise InvalidCharacter, "Given VIN code has an invalid character: #{char}" unless number
 
-    numerical_counterpart(char) % 10
+    number % 10
   end
 end

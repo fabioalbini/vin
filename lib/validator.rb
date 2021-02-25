@@ -4,18 +4,8 @@ class Validator
   VIN_LENGTH = 17
   CHECK_DIGIT_POSITION = 8
 
-  Response = Struct.new(
-    :valid?,
-    :errors,
-    keyword_init: true
-  )
-
-  Error = Struct.new(
-    :message,
-    :position,
-    :suggestions,
-    keyword_init: true
-  )
+  Response = Struct.new(:valid?, :errors, keyword_init: true)
+  Error = Struct.new(:message, :position, keyword_init: true)
 
   def initialize(vin_code, check_digit_calculator: CheckDigitCalculator)
     @vin_code = vin_code.to_s
@@ -37,43 +27,27 @@ class Validator
 
   def validate_length
     if vin_code.size != VIN_LENGTH
-      add_error(
-        Error.new(message: "should have #{VIN_LENGTH} characters")
-      )
+      add_error(Error.new(message: "should have #{VIN_LENGTH} characters"))
     end
   end
 
   def validate_allowed_characters
-    given_characters.each_with_index do |char, index|
+    given_characters.each_with_index do |char, position|
       next if allowed_characters.include?(char)
 
-      add_error(
-        Error.new(
-          message: "has an invalid character of '#{char}'",
-          position: index,
-          suggestions: allowed_characters
-        )
-      )
+      add_error(Error.new(message: "has an invalid character of '#{char}'", position: position))
     end
   end
 
   def validate_check_digit
     return if errors.any?
-    return if vin_code[8].to_c == calculated_check_digit
+    return if vin_code[CHECK_DIGIT_POSITION].to_c == calculated_check_digit.to_c
 
-    add_error(
-      Error.new(
-        message: 'invalid check digit',
-        position: CHECK_DIGIT_POSITION,
-        suggestions: calculated_check_digit
-      )
-    )
-  rescue CheckDigitCalculator::InvalidCharacter
-    Error.new(message: 'invalid check digit', position: CHECK_DIGIT_POSITION)
+    add_error(Error.new(message: 'invalid check digit', position: CHECK_DIGIT_POSITION))
   end
 
-  def add_error(*errors)
-    @errors += errors
+  def add_error(error)
+    @errors.push(error)
   end
 
   def calculated_check_digit
@@ -81,7 +55,7 @@ class Validator
   end
 
   def given_characters
-    @given_characters ||= vin_code.split('')
+    @given_characters ||= vin_code.chars
   end
 
   def allowed_characters
