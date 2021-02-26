@@ -17,6 +17,6 @@ vin.errors.each do |error|
   puts <<~STR
     -- Error --
     Message: #{error.message}
-    Position: #{error.position}
+    Position: #{error.position + 1}
   STR
 end

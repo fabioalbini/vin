@@ -26,7 +26,7 @@ class CheckDigitCalculator
   attr_reader :vin_code
 
   def numerical_counterpart(char)
-    '0123456789.ABCDEFGH..JKLMN.P.R..STUVWXYZ'.split('').index(char)
+    '0123456789.ABCDEFGH..JKLMN.P.R..STUVWXYZ'.chars.index(char)
   end
 
   def transliterate(char)

@@ -25,8 +25,7 @@ class Suggester
     return @suggestions if positions.empty?
 
     current_position = positions.first
-    variations = variations_in_position(vin_code, current_position)
-    variations.each do |new_code|
+    variations_in_position(vin_code, current_position).each do |new_code|
       if validator.new(new_code).call.valid?
         @suggestions.push(new_code)
       else
