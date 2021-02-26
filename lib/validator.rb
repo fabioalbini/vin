@@ -16,6 +16,7 @@ class Validator
   def call
     validate_length
     validate_allowed_characters
+    validate_serial_number
     validate_check_digit
 
     Response.new(valid?: errors.empty?, errors: errors)
@@ -36,6 +37,16 @@ class Validator
       next if allowed_characters.include?(char)
 
       add_error(Error.new(message: "has an invalid character of '#{char}'", position: position))
+    end
+  end
+
+  def validate_serial_number
+    (14..16).each do |position|
+      char = vin_code[position]
+
+      if char !~ /[0-9]/
+        add_error(Error.new(message: "has an invalid character of '#{char}'", position: position))
+      end
     end
   end
 
