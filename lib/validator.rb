@@ -41,7 +41,7 @@ class Validator
 
   def validate_check_digit
     return if errors.any?
-    return if vin_code[CHECK_DIGIT_POSITION].to_c == calculated_check_digit.to_c
+    return if vin_code[CHECK_DIGIT_POSITION] == calculated_check_digit
 
     add_error(Error.new(message: 'invalid check digit', position: CHECK_DIGIT_POSITION))
   end
