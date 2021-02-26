@@ -5,7 +5,13 @@ vin = Vin.new(given_vin_code)
 
 puts "Provided VIN: #{vin}"
 puts "Check Digit: #{vin.valid? ? 'VALID' : 'INVALID'}"
-puts 'This looks like a VALID vin!' if vin.valid?
+
+if vin.valid?
+  puts 'This looks like a VALID vin!'
+else
+  puts 'Suggested VIN(s):'
+  puts vin.suggestions.join("\n")
+end
 
 vin.errors.each do |error|
   puts <<~STR
