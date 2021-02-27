@@ -21,6 +21,10 @@ class CheckDigitCalculator
     end
   end
 
+  def self.call(vin_code)
+    new(vin_code).call
+  end
+
   private
 
   attr_reader :vin_code

@@ -20,7 +20,7 @@ class Vin
   def suggestions
     return [] if valid?
 
-    @suggestions ||= suggester.new(vin_code).call
+    @suggestions ||= suggester.call(vin_code)
   end
 
   private
@@ -28,6 +28,6 @@ class Vin
   attr_reader :vin_code, :validator, :suggester
 
   def validation_response
-    @validation_response ||= validator.new(vin_code).call
+    @validation_response ||= validator.call(vin_code)
   end
 end

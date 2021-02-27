@@ -22,6 +22,10 @@ class Validator
     Response.new(valid?: errors.empty?, errors: errors)
   end
 
+  def self.call(vin_code)
+    new(vin_code).call
+  end
+
   private
 
   attr_reader :vin_code, :errors, :check_digit_calculator
@@ -62,7 +66,7 @@ class Validator
   end
 
   def calculated_check_digit
-    @calculated_check_digit ||= check_digit_calculator.new(vin_code).call
+    @calculated_check_digit ||= check_digit_calculator.call(vin_code)
   end
 
   def given_characters
