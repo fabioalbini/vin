@@ -1,4 +1,4 @@
-require_relative './check_digit_calulator'
+require_relative './check_digit_calculator'
 
 class Validator
   VIN_LENGTH = 17
